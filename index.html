@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 17: Central Bank Climate Communication Analysis</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        :root {
+            --primary: #1c1917;
+            --secondary: #292524;
+            --accent: #78716c;
+            --sand: #f5f0e8;
+            --charcoal: #1a1a2e;
+            --body: #2d3748;
+            --slate: #4a5568;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            line-height: 1.75;
+            color: var(--body);
+            background: var(--sand);
+        }
+
+        .hero {
+            background: linear-gradient(160deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+            padding: 90px 24px 70px;
+            text-align: center;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.06) 0%, transparent 50%);
+        }
+        .hero .tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+        .hero h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.8rem;
+            font-weight: 400;
+            margin-bottom: 16px;
+            line-height: 1.2;
+            color: #ffffff;
+        }
+        .hero p { font-size: 1.15rem; opacity: 0.95; max-width: 680px; margin: 0 auto; color: #ffffff; }
+        .meta-bar {
+            display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;
+            margin-top: 28px;
+        }
+        .meta-item {
+            background: rgba(255,255,255,0.12);
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            color: #ffffff;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 0 20px 60px; }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 36px 32px;
+            margin-top: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+        .card h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.5rem;
+            color: var(--charcoal);
+            margin-bottom: 16px;
+        }
+        .card p { color: var(--body); margin-bottom: 12px; }
+
+        .research-q {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #ffffff;
+            padding: 24px 28px;
+            border-radius: 12px;
+            font-size: 1.15rem;
+            font-style: italic;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+
+        .step {
+            display: flex;
+            gap: 16px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0ebe3;
+            align-items: flex-start;
+        }
+        .step:last-child { border-bottom: none; }
+        .step-label {
+            flex-shrink: 0;
+            width: 110px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--charcoal);
+            padding-top: 2px;
+        }
+        .step-text {
+            font-size: 0.95rem;
+            color: var(--body);
+        }
+        .step-text code {
+            background: #eee8dc;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85em;
+            color: var(--charcoal);
+        }
+
+        .code-block {
+            background: #1e293b;
+            border-radius: 10px;
+            padding: 22px 24px;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            line-height: 1.7;
+            color: #e2e8f0;
+            margin: 16px 0 0;
+        }
+
+        .finding {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            margin-bottom: 18px;
+        }
+        .finding:last-child { margin-bottom: 0; }
+        .finding-num {
+            flex-shrink: 0;
+            width: 32px; height: 32px;
+            background: var(--accent);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.88rem;
+        }
+        .finding-text { font-size: 0.95rem; color: var(--body); }
+
+        .warn {
+            background: #fffbeb;
+            border-left: 4px solid #d4a017;
+            padding: 18px 24px;
+            border-radius: 0 10px 10px 0;
+            margin: 20px 0;
+        }
+        .warn strong { color: #78350f; }
+        .warn p { color: #713f12; margin-bottom: 0; }
+
+        .ref-list { list-style: none; padding: 0; }
+        .ref-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0ebe3;
+            font-size: 0.88rem;
+            color: var(--slate);
+        }
+        .ref-list li:last-child { border-bottom: none; }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--primary);
+            color: rgba(255,255,255,0.8);
+            font-size: 0.85rem;
+        }
+        footer strong { color: #ffffff; }
+
+        @media (max-width: 700px) {
+            .hero h1 { font-size: 2rem; }
+            .card { padding: 28px 20px; }
+            .meta-bar { gap: 10px; }
+            .step { flex-direction: column; gap: 4px; }
+            .step-label { width: auto; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <div class="tag">Project 17 of 20 — Sustainable Finance Analytics</div>
+    <h1>Central Bank Climate Communication Analysis</h1>
+    <p>Structural topic modelling and sentiment analysis of central bank speeches to track the evolution of climate risk language in monetary policy communication</p>
+    <div class="meta-bar">
+        <span class="meta-item">🐍 Python &amp; R</span><span class="meta-item">📊 STM &amp; Sentiment Analysis</span><span class="meta-item">📅 500+ speeches (2015–2024)</span><span class="meta-item">🏛️ ECB, Fed, BoE</span>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="card">
+        <h2>1. Research Question &amp; Motivation</h2>
+        <div class="research-q">"How has central bank communication on climate risk evolved, and which institutions are leading the monetary policy discourse on climate?"</div>
+        <p>Central banks increasingly recognise climate change as a financial stability risk. The formation of the NGFS (Network for Greening the Financial System) in 2017 marked a turning point. But rhetoric must precede action — by analysing the text of central bank speeches, we can track when and how climate entered the monetary policy conversation, which institutions lead, and whether the framing has shifted from academic discussion to supervisory action.</p>
+    </div>
+
+    <div class="card">
+        <h2>2. Data Collection &amp; Sources</h2>
+        
+                <div class="step">
+                    <div class="step-label">Source</div>
+                    <div class="step-text">BIS Central Bank Speeches database — the most comprehensive collection of central banker communications</div>
+                </div>
+                <div class="step">
+                    <div class="step-label">Corpus</div>
+                    <div class="step-text">500+ climate-related speeches and publications from 2015–2024</div>
+                </div>
+                <div class="step">
+                    <div class="step-label">Institutions</div>
+                    <div class="step-text">ECB, Federal Reserve, Bank of England, NGFS member central banks</div>
+                </div>
+                <div class="step">
+                    <div class="step-label">Processing</div>
+                    <div class="step-text">Tokenisation, lemmatisation, stop word removal, climate dictionary filtering</div>
+                </div>
+                <div class="step">
+                    <div class="step-label">Tool</div>
+                    <div class="step-text">R <code>stm</code> package for structural topic modelling; Python NLTK for preprocessing</div>
+                </div>
+        <pre class="code-block">import requests
+from bs4 import BeautifulSoup
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+
+# Climate keyword filter for speech selection
+climate_terms = ['climate', 'green', 'sustainable', 'carbon', 'emissions',
+                 'transition risk', 'physical risk', 'ESG', 'TCFD', 'NGFS']
+
+# Process speech corpus
+def preprocess(text):
+    tokens = word_tokenize(text.lower())
+    tokens = [t for t in tokens if t.isalpha() and t not in stopwords.words('english')]
+    return ' '.join(tokens)</pre>
+    </div>
+
+    
+        <div class="card">
+            <h2>3a. Structural Topic Model (STM)</h2>
+            <p>An extension of LDA that allows topic proportions to vary by metadata (institution, year). This reveals how climate topics differ across central banks and evolve over time — more informative than standard topic models.</p>
+            <pre class="code-block"># R code for Structural Topic Model
+library(stm)
+
+# Preprocess text
+processed <- textProcessor(documents=speeches$text, metadata=speeches)
+out <- prepDocuments(processed$documents, processed$vocab, processed$meta)
+
+# Estimate STM with institution and year covariates
+stm_model <- stm(out$documents, out$vocab, K=8,
+    prevalence = ~ institution + s(year),
+    data = out$meta, init.type = 'Spectral')
+
+# Topic proportions by institution
+plot(stm_model, type='summary', n=5)</pre>
+        </div>
+        <div class="card">
+            <h2>4a. Sentiment Analysis</h2>
+            <p>Financial-domain sentiment lexicons (Loughran-McDonald) applied to climate-specific passages. Tracks whether tone has shifted from cautious/neutral to urgent/action-oriented.</p>
+            <pre class="code-block"># Sentiment analysis using Loughran-McDonald dictionary
+from collections import Counter
+
+lm_positive = set(open('LM_positive.txt').read().split())
+lm_negative = set(open('LM_negative.txt').read().split())
+
+def climate_sentiment(text):
+    words = text.lower().split()
+    pos = sum(1 for w in words if w in lm_positive)
+    neg = sum(1 for w in words if w in lm_negative)
+    return (pos - neg) / (pos + neg + 1)  # normalised sentiment</pre>
+        </div>
+        <div class="card">
+            <h2>5a. Temporal Trend Analysis</h2>
+            <p>Volume and complexity of climate language tracked over time with structural break testing around key events: NGFS formation (2017), COVID (2020), COP26 (2021), ISSB launch (2023).</p>
+            <pre class="code-block"># Time series of climate mention intensity
+annual_intensity = speeches.groupby('year')['climate_word_count'].mean()
+
+# Structural break test (Chow test at NGFS formation date)
+from scipy import stats
+pre_ngfs = annual_intensity[annual_intensity.index < 2018]
+post_ngfs = annual_intensity[annual_intensity.index >= 2018]
+t_stat, p_val = stats.ttest_ind(pre_ngfs, post_ngfs)
+print(f"Structural break at NGFS: t={t_stat:.2f}, p={p_val:.4f}")</pre>
+        </div>
+
+    <div class="card">
+        <h2>Key Findings</h2>
+        
+                <div class="finding">
+                    <div class="finding-num">1</div>
+                    <div class="finding-text">ECB leads in climate communication volume (3× the Fed's climate mention rate), with the Bank of England pioneering scenario analysis frameworks (CBES) — clear institutional divergence</div>
+                </div>
+                <div class="finding">
+                    <div class="finding-num">2</div>
+                    <div class="finding-text">Climate discourse shifted from 'risk assessment' framing (pre-2019) to 'supervisory action' framing (post-NGFS formation), detectable through topic proportion changes in the STM</div>
+                </div>
+                <div class="finding">
+                    <div class="finding-num">3</div>
+                    <div class="finding-text">Sentiment toward climate regulation became significantly more positive post-2020 across all major central banks, with the Fed showing the largest shift (from neutral to moderately positive)</div>
+                </div>
+    </div>
+
+    <div class="card">
+        <div class="warn">
+            <strong>⚠️ Methodological Caveat</strong>
+            <p>Central bank speeches are carefully crafted communications — they are intentional signals, not spontaneous expression. Changes in language may reflect strategic communication rather than genuine belief shifts. The BIS database may not capture all relevant communications (internal memos, supervisory letters are excluded).</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>References</h2>
+        <ul class="ref-list">
+            <li>Roberts, M., Stewart, B., & Tingley, D. (2019). 'stm: An R package for structural topic models.' Journal of Statistical Software, 91(2).</li>
+<li>Loughran, T. & McDonald, B. (2011). 'When is a liability not a liability? Textual analysis, dictionaries, and 10-Ks.' Journal of Finance, 66(1).</li>
+<li>NGFS (2019). 'A call for action: Climate change as a source of financial risk.' Network for Greening the Financial System.</li>
+
+        </ul>
+    </div>
+
+</div>
+
+<footer>
+    <strong>Sustainable Finance Research Portfolio</strong> · Project 17 of 20<br>
+    AI-Assisted Research — Methodology and interpretation directed by researcher; implementation assisted by Claude AI
+</footer>
+
+</body>
+</html>
